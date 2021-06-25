@@ -1,0 +1,36 @@
+mixin navLink(text, to, logout)
+  li.nav-item.ms-auto
+    a.nav-link.translateY(class=logout href=to)=text
+
+header
+  nav.navbar.navbar-expand-md.navbar-dark.p-3
+  
+    //- GREENCODE LOGO
+    a(href="/")
+      img.img-sm(src="/img/logo/greencode-white.png" alt="GreenCode logo")
+    
+    //- DROPDOWN
+    button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNavDropdown' aria-controls='navbarNavDropdown' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+
+    #navbarNavDropdown.collapse.navbar-collapse.px-3
+      ul.navbar-nav.ms-auto
+        +navLink("Home", "/")
+        if user
+          +navLink("Settings", "/settings")
+          +navLink("Log out", "#", "logout-btn")
+
+//- LOGIN AND SIGN UP
+if !user
+  .d-flex.p-2
+    .mx-auto
+      a.btn.btn-outline-light.mx-4(href='/login') Log in
+      span(style="color: #ccc") or
+      a.btn.btn-success.mx-4(href='/signup') Sign up
+
+//- PROFILE AVATAR
+else
+  .d-flex.justify-content-center.align-items-center.p-2
+    h1.text-light.mb-0.me-4=user.firstName
+    a.rounded-circle(href="/settings")
+      img.img-md.rounded-circle(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)

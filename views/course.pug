@@ -1,0 +1,97 @@
+extends base
+
+mixin socialLinkBtn(text, bg)
+  .col-sm-3.mb-1
+    a.btn.btn-sm.border.text-light.w-100.translateY(class=bg)=text
+
+block content
+  .main
+    .container.my-5.transparent-gradient
+
+      //- COURSE HEADER
+      .bg-dark.bg-gradient.row
+        //- COURSE DETAILS
+        .p-4.text-light.col-lg-6
+          h5.fst-italic.text-info.mb-4=`Development > Web Development`
+          .ms-3
+            h1=course.name
+            h4.fw-light.mb-3=course.description
+            h5.fw-light.text-warning=`${course.ratingsAverage} ( ${course.ratingsQuantity} reviews )`
+
+        //- COURSE CARD PRICE
+        .py-2.col-lg-6
+          .card
+            .card-header.d-flex.mb-2
+              img.img-lg.mx-auto(src=`/img/courses/${course.imageCover}.svg` alt=`${course.imageCover}-image`)
+            .card-body.d-grid.mx-3
+              h2.fw-bold=`€ ${course.price}.00`
+              button.btn.btn-lg.btn-success.my-2(disabled) ADD TO CARD
+              if user
+                a.btn.btn-lg.btn-success.my-2.buy-course-btn(data-course-id=`${course.id}`) BUY NOW
+              else
+                button.btn.btn-lg.btn-success.my-2.buy-course-btn(disabled) BUY NOW
+                span.fst-italic You must be logged in to buy the course
+
+      .row
+        //- INSTRUCTOR
+        .course-instructor.col-lg-6
+          .rounded.p-3.box-bg-soft-blue.box-shadow
+            h4.text-center.mb-4 Your instructor
+            .d-grid.justify-content-center
+              img.img-lg.rounded-circle.mb-2.mx-auto(src=`/img/users/${course.teacher.photo}` alt=`Photo of ${course.teacher.username}`)
+              h2.text-center.mb-3=`${course.teacher.firstName} ${course.teacher.lastName}`
+            .row.bg-danger.bg-gradient.rounded.border.border-danger.p-2
+              +socialLinkBtn("Facebook", "bg-fb")
+              +socialLinkBtn("Twitter", "bg-tw")
+              +socialLinkBtn("Instagram", "bg-ig")
+              +socialLinkBtn("YouTube", "bg-yt")
+
+        //- INFO
+        .course-learn.col-lg-6
+          .rounded.p-3.box-bg-soft-yellow.box-shadow
+            h2.text-center.mb-4 What you'll learn?
+            each text in course.youWillLearnAbout
+              .d-flex.align-items-center.mb-2.p-2
+                i.fas.fa-check.me-3
+                p.fst-italic.m-0=text
+      
+      if course.reviews.length > 0
+        .reviews
+          #carouselReviews.carousel.slide(data-bs-ride='carousel')
+            .carousel-inner
+              each review, index in course.reviews
+                .carousel-item(class=`${index === 0 ? 'active' : ''}`)
+                  .review-card.d-grid.rounded.p-4.m-5.bg-light.mx-auto.box-shadow
+                    .d-flex.align-items-center
+                      img.img-sm.rounded-circle(src=`/img/users/${review.user.photo}` alt=`Photo of ${review.user.firstName}`)
+                      h5.ms-2.mb-0.text-secondary=review.user.firstName
+                    .card-body
+                      p.fst-italic=review.review
+                    .mt-auto
+                      each star in [1, 2, 3, 4, 5]
+                        i.fs-4.me-2(class=`${review.rating >= star ? 'fas fa-star text-warning' : 'far fa-star text-secondary'}`)
+
+            button.carousel-control-prev(type='button' data-bs-target='#carouselReviews' data-bs-slide='prev')
+              span.carousel-control-prev-icon(aria-hidden='true')
+              span.visually-hidden Previous
+            button.carousel-control-next(type='button' data-bs-target='#carouselReviews' data-bs-slide='next')
+              span.carousel-control-next-icon(aria-hidden='true')
+              span.visually-hidden Next
+
+                      
+
+      .d-flex.justify-content-center.py-4
+        .buy-course-box.rounded.d-flex.align-items-center.box-shadow
+          img.img-lg(src=`/img/courses/${course.imageCover}.svg` alt=`${course.imageCover}-image`)
+          
+          if user
+            .mx-4.hide
+              h4 What are you waiting for?
+              h6 Come and learn something new!
+            a.btn.btn-md.btn-success.mx-3.buy-course-btn(data-course-id=`${course.id}`) Buy now
+          
+          else
+            .mx-4.hide
+              h4 What are you waiting for?
+              h6 Join us and learn something new!
+            a.btn.btn-md.btn-success.mx-3(href="/login") Log in

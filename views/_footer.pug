@@ -1,0 +1,24 @@
+mixin socialLink(className, to)
+    a.btn.m-2(href=to)
+        i(class=className).fs-1.p-2.rounded.transparent-gradient.translateY
+
+mixin contact(text, icon)
+    .d-flex.align-items-center.mb-3
+        i(class=icon).text-light.fs-3
+        span.text-light.ms-3.fs-5=text
+
+footer
+    //- SOCIAL MEDIA
+    .footer-links.d-flex.rounded-pill
+        .mx-auto
+            +socialLink("fab fa-facebook-square color-fb", "https://www.facebook.com/mikaelson09/")
+            +socialLink("fab fa-github color-git", "https://github.com/LegioAeternaVictrix")
+
+    //- CONTACT DETAILS
+    .d-grid.justify-content-center.mt-3
+        h1.text-light.text-center.mb-3 Contact
+        .d-grid
+            +contact("0758644986", "fas fa-phone")
+            +contact("claudiubaituc@gmail.com", "fas fa-envelope")
+            
+                     

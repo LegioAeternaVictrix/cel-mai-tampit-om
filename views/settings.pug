@@ -1,0 +1,72 @@
+extends base
+
+mixin Item(text, icon, to)
+    li.nav-item.effect
+        a.nav-link.d-flex.justify-content-between.align-items-center.px-3.icon(href=to)
+            span.hide=text
+            i(class=icon)
+
+block content
+    .main
+        .container.d-flex.p-0.transparent-gradient
+            .settings-panel-left
+                .mb-3
+                    h4.text-success.hide Account
+                    nav.navbar.navbar-dark.fs-5
+                        ul.navbar-nav.w-100.mx-2
+                            +Item("Settings", "fas fa-cogs", "#")
+                            +Item("My courses", "fas fa-play", "/my-learnings")
+                            +Item("My reviews", "fas fa-star", "#")
+                            +Item("Billings", "fas fa-money-bill-wave-alt", "#")
+                            
+                if (user.role === 'admin')
+                    .mb-3
+                        h4.text-success.hide Admin
+                        nav.navbar.navbar-dark.fs-5
+                            ul.navbar-nav.w-100.mx-2
+                                +Item("Courses", "fas fa-file-video", "#")
+                                +Item("Users", "fas fa-users", "#")
+                                +Item("Reviews", "fas fa-star-half-alt", "#")
+                                +Item("Orders", "fas fa-money-bill-wave-alt", "#")   
+                                   
+
+            .settings-panel-right 
+                .d-flex.justify-content-center
+                    img.img-lg.my-5(src="/img/logo/greencode.png" alt="GreenCode logo")
+                .border-bottom.border-secondary.pb-3.mb-3
+                    form.form-user-data
+                        .mb-5
+                            h1.text-success Your account settings
+                        .mb-3
+                            label.form-label(for='username') Username
+                            input#username.form-control(type='text', value=`${user.username}`)
+                        .mb-3
+                            label.form-label(for='firstName') First Name
+                            input#firstName.form-control(type='text' value=`${user.firstName}`)
+                        .mb-3
+                            label.form-label(for='lastName') Last Name
+                            input#lastName.form-control(type='text' value=`${user.lastName}`)
+                        .mb-3
+                            label.form-label(for='email') Email address
+                            input#email.form-control(type='email' aria-describedby='emailHelp' value=`${user.email}`)
+                        .mb-3
+                            img.img-lg.rounded-circle(src=`/img/users/${user.photo}` alt=`Photo of ${user.name}`)
+                        .mb-3
+                            label.form-label(for='photo') Choose new photo
+                            input.form-control.form-control-sm(type='file', accept='image/*', id='photo', name='photo')
+                        button.btn.btn-md.btn-success(type='submit') Save settings
+
+                .mb-5.pt-4
+                    form.form-user-password
+                        .mb-5
+                            h2.text-success Password change
+                        .mb-3
+                            label.form-label(for='password-current') Current password
+                            input#password-current.form-control(type='password')
+                        .mb-3
+                            label.form-label(for='password') New password
+                            input#password.form-control(type='password')
+                        .mb-3
+                            label.form-label(for='password-confirm') Confirm password
+                            input#password-confirm.form-control(type='password')
+                        button.btn.btn-md.btn-success.btn-save-password(type='submit') Save password

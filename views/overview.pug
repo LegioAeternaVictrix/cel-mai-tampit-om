@@ -1,0 +1,24 @@
+extends base
+
+block content
+  .main
+    .container.p-4
+      .row
+        each course in courses
+          .col-lg-4.mb-5
+            .card.h-100.translateY
+              .card-header
+                h4=course.name
+              img.img-lg.p-2(src=`/img/courses/${course.imageCover}.svg` alt=`${course.imageCover}-image`)
+              .card-body.d-flex
+                .mt-auto
+                  h5=`Teacher: ${course.teacher.firstName} ${course.teacher.lastName}`
+                  h5=`Rating: ${course.ratingsAverage}`
+                  h5=`Price: ${course.price}.00`
+              .card-footer
+                if user
+                  a.btn.btn-sm.btn-success.mx-1.buy-course-btn(data-course-id=`${course.id}`) Buy now
+                else
+                  button.btn.btn-sm.btn-success.mx-1(disabled) Buy now
+                a.btn.btn-sm.btn-dark.mx-1(href=`/course/${course.slug}`) Take a look
+              
