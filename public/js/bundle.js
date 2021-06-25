@@ -9021,7 +9021,6 @@ if (loginForm) loginForm.addEventListener("submit", function (e) {
   e.preventDefault();
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
-  console.log("so far so good");
   (0, _login.login)(email, password);
 });
 if (signupForm) signupForm.addEventListener("submit", function (e) {
